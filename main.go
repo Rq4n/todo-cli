@@ -2,6 +2,7 @@ package main
 
 import (
 	"bufio"
+	"fmt"
 	"os"
 )
 
@@ -13,17 +14,34 @@ type Todo struct {
 type Todos []Todo
 
 func main() {
-	var tasks Todos
+	var Tasks Todos
 	scanner := bufio.NewScanner(os.Stdin)
 	for scanner.Scan() {
-		tasks.Add(scanner.Text())
+		if scanner.Text() == "break" {
+			Tasks.List()
+			break
+		} else {
+			Tasks.Add(scanner.Text())
+		}
 	}
+
 }
 
-func (t *Todos) Add(name string) {
+func (todos *Todos) Add(name string) {
 	task := Todo{
 		Name:      name,
 		Completed: false,
 	}
-	*t = append(*t, task)
+	*todos = append(*todos, task)
+}
+
+func (todos *Todos) List() {
+	for i, t := range *todos {
+		completed := "[ ]"
+
+		if t.Completed {
+			completed = "[x]"
+		}
+		fmt.Printf("%d -  %s %s\n", i+1, t.Name, completed)
+	}
 }
