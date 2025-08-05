@@ -2,6 +2,7 @@ package main
 
 import (
 	"bufio"
+	"errors"
 	"fmt"
 	"os"
 )
@@ -44,4 +45,28 @@ func (todos *Todos) List() {
 		}
 		fmt.Printf("%d -  %s %s\n", i+1, t.Name, completed)
 	}
+}
+
+/*
+Receber um índice (ex: posição da tarefa que você quer apagar)
+Validar se o índice é válido (não pode ser negativo ou maior que o tamanho da lista)
+Remover a tarefa daquele índice do slice
+Atualizar o slice para refletir essa remoção
+*/
+func (todos *Todos) validateIndex(index int) error {
+	if index < 0 || index >= len(*todos) {
+		return errors.New("Indece fora do limite")
+	} else {
+		return nil
+	}
+}
+
+func (todos *Todos) delete(index int) {
+	t := *todos
+
+	if err := t.validateIndex(index); err != nil {
+		return err
+	}
+
+	// para remover  ele ganha um novo slice no local do indice passado, so que esse valor seria vazio
 }
