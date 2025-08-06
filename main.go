@@ -1,10 +1,8 @@
 package main
 
 import (
-	"bufio"
 	"errors"
 	"fmt"
-	"os"
 )
 
 type Todo struct {
@@ -15,16 +13,14 @@ type Todo struct {
 type Todos []Todo
 
 func main() {
-	var Tasks Todos
-	scanner := bufio.NewScanner(os.Stdin)
-	for scanner.Scan() {
-		if scanner.Text() == "break" {
-			Tasks.List()
-			break
-		} else {
-			Tasks.Add(scanner.Text())
-		}
-	}
+	todos := Todos{}
+	todos.Add("Buy milk")
+	todos.Add("Buy bread")
+	todos.Add("Read 1 page")
+	todos.List()
+	fmt.Printf("\n")
+	todos.delete(1)
+	todos.List()
 
 }
 
@@ -47,26 +43,24 @@ func (todos *Todos) List() {
 	}
 }
 
-/*
-Receber um índice (ex: posição da tarefa que você quer apagar)
-Validar se o índice é válido (não pode ser negativo ou maior que o tamanho da lista)
-Remover a tarefa daquele índice do slice
-Atualizar o slice para refletir essa remoção
-*/
 func (todos *Todos) validateIndex(index int) error {
 	if index < 0 || index >= len(*todos) {
-		return errors.New("Indece fora do limite")
-	} else {
-		return nil
+		err := errors.New("Invalid Index")
+		fmt.Println(err)
+		return err
 	}
+	return nil
 }
 
-func (todos *Todos) delete(index int) {
+func (todos *Todos) delete(index int) error {
 	t := *todos
 
 	if err := t.validateIndex(index); err != nil {
 		return err
 	}
 
-	// para remover  ele ganha um novo slice no local do indice passado, so que esse valor seria vazio
+	*todos = append(t[:index], t[index+1:]...)
+
+	return nil
 }
+
