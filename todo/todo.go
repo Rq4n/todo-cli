@@ -5,12 +5,11 @@ import (
 	"fmt"
 	"os"
 	"strconv"
-
 	"github.com/aquasecurity/table"
 )
 
 type Todo struct {
-	Name      string
+	Title     string
 	Completed bool
 }
 
@@ -18,16 +17,15 @@ type Todos []Todo
 
 func (todos *Todos) Add(name string) {
 	task := Todo{
-		Name:      name,
+		Title:      name,
 		Completed: false,
 	}
 	*todos = append(*todos, task)
 }
 
-
 func (todos *Todos) validateIndex(index int) error {
 	if index < 0 || index >= len(*todos) {
-		err := errors.New("Invalid Index")
+		err := errors.New("Invalid index")
 		fmt.Println(err)
 		return err
 	}
@@ -56,7 +54,18 @@ func (todos *Todos) Print(){
 		if t.Completed {
 			completed = "✅"
 		}
-		table.AddRow(strconv.Itoa(index), t.Name, completed)
+		table.AddRow(strconv.Itoa(index), t.Title, completed)
 	} 
 	table.Render()
 }
+
+func (todos *Todos) Complete(index int) error {
+	 t := *todos
+
+	if err := t.validateIndex(index); err != nil{
+		return err
+	}
+	t[index].Completed = !t[index].Completed
+	return nil
+	}
+

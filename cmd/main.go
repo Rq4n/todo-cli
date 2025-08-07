@@ -9,6 +9,8 @@ func main() {
 	todos.Add("Buy milk")
 	todos.Add("Buy bread")
 	todos.Add("Read 1 page")
+	todos.Complete(1)
 	todos.Print()
+
 
 }
