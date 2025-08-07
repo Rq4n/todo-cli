@@ -1,4 +1,4 @@
-package main
+package todo
 
 import (
 	"errors"
@@ -15,15 +15,6 @@ type Todo struct {
 }
 
 type Todos []Todo
-
-func main() {
-	todos := Todos{}
-	todos.Add("Buy milk")
-	todos.Add("Buy bread")
-	todos.Add("Read 1 page")
-	todos.print()
-
-}
 
 func (todos *Todos) Add(name string) {
 	task := Todo{
@@ -53,7 +44,7 @@ func (todos *Todos) validateIndex(index int) error {
 	return nil
 }
 
-func (todos *Todos) delete(index int) error {
+func (todos *Todos) Delete(index int) error {
 	t := *todos
 
 	if err := t.validateIndex(index); err != nil {
@@ -65,7 +56,7 @@ func (todos *Todos) delete(index int) error {
 	return nil
 }
 
-func (todos *Todos) print(){
+func (todos *Todos) Print(){
 	table := table.New(os.Stdout)
 	table.SetRowLines(false)
 	table.SetHeaders("#", "Title", "Completed")

@@ -1,4 +1,4 @@
-module src/task
+module github.com/Rq4n/todo-cli
 
 go 1.24.5
 
