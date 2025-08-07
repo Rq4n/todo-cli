@@ -3,6 +3,10 @@ package main
 import (
 	"errors"
 	"fmt"
+	"os"
+	"strconv"
+
+	"github.com/aquasecurity/table"
 )
 
 type Todo struct {
@@ -17,10 +21,7 @@ func main() {
 	todos.Add("Buy milk")
 	todos.Add("Buy bread")
 	todos.Add("Read 1 page")
-	todos.List()
-	fmt.Printf("\n")
-	todos.delete(1)
-	todos.List()
+	todos.print()
 
 }
 
@@ -64,3 +65,17 @@ func (todos *Todos) delete(index int) error {
 	return nil
 }
 
+func (todos *Todos) print(){
+	table := table.New(os.Stdout)
+	table.SetRowLines(false)
+	table.SetHeaders("#", "Title", "Completed")
+	for index, t := range *todos{
+		completed := "❌"
+
+		if t.Completed {
+			completed = "✅"
+		}
+		table.AddRow(strconv.Itoa(index), t.Name, completed)
+	} 
+	table.Render()
+}
