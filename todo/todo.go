@@ -24,16 +24,6 @@ func (todos *Todos) Add(name string) {
 	*todos = append(*todos, task)
 }
 
-func (todos *Todos) List() {
-	for i, t := range *todos {
-		completed := "[ ]"
-
-		if t.Completed {
-			completed = "[x]"
-		}
-		fmt.Printf("%d -  %s %s\n", i+1, t.Name, completed)
-	}
-}
 
 func (todos *Todos) validateIndex(index int) error {
 	if index < 0 || index >= len(*todos) {
